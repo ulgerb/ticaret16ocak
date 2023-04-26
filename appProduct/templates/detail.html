@@ -2,6 +2,84 @@
 {% load static %}
 
 
+{% block css %}
+    <style>
+        
+        .comment-box{
+            
+            padding:5px;
+        }
+
+
+
+        .comment-area textarea{
+        resize: none; 
+                border: 1px solid #ad9f9f;
+        }
+
+
+        .form-control:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #ffffff;
+            outline: 0;
+            box-shadow: 0 0 0 1px rgb(255, 0, 0) !important;
+        }
+
+        .send {
+            color: #fff;
+            background-color: #ff0000;
+            border-color: #ff0000;
+        }
+
+        .send:hover {
+            color: #fff;
+            background-color: #f50202;
+            border-color: #f50202;
+        }
+
+
+        .rating {
+        display: flex;
+                margin-top: -10px;
+            flex-direction: row-reverse;
+            margin-left: -4px;
+                float: left;
+        }
+
+        .rating>input {
+            display: none
+        }
+
+        .rating>label {
+                position: relative;
+            width: 19px;
+            font-size: 25px;
+            color: #ff0000;
+            cursor: pointer;
+        }
+
+        .rating>label::before {
+            content: "\2605";
+            position: absolute;
+            opacity: 0
+        }
+
+        .rating>label:hover:before,
+        .rating>label:hover~label:before {
+            opacity: 1 !important
+        }
+
+        .rating>input:checked~label:before {
+            opacity: 1
+        }
+
+        .rating:hover>input:checked~label:before {
+            opacity: 0.4
+        }
+    </style>
+{% endblock css %}
+    
     
 
 {% block body %}
@@ -197,50 +275,77 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12">
-                <section style="background-color: #d94125;">
-  <div class="container my-5 py-5 text-dark">
-    <div class="row d-flex justify-content-center">
-      <div class="col-md-10 col-lg-8 col-xl-6">
-        <div class="card">
-          <div class="card-body p-4">
-            <div class="d-flex flex-start w-100">
-              <img class="rounded-circle shadow-1-strong me-3"
-                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar" width="65"
-                height="65" />
-              <div class="w-100">
-                <h5>YORUM EKLENECEK SONRA SEPETE GEÇ</h5>
-                <ul class="rating mb-3" data-mdb-toggle="rating">
-                    <div class="d-flex align-items-center">
-                        <i class="far fa-star fa-sm text-danger m-2" title="Bad"></i>
-                        <select class="form-select" name="" id="">
-                            <option value="">1</option>
-                            <option value="">2</option>
-                            <option value="">3</option>
-                            <option value="">4</option>
-                            <option value="">5</option>
-                        </select>
+            <div class="col-12 mt-5">
+                <div class="card p-3">
+                
+                    <div class="row">
+                
+                        <div class="col-1">
+                
+                
+                            <img src="https://i.imgur.com/xELPaag.jpg" width="70" class="rounded-circle mt-2">
+                
+                
+                        </div>
+                
+                        <div class="col-10">
+                
+                            <div class="comment-box ml-2">
+                
+                                <h4>Add a comment</h4>
+                
+                                <div class="rating">
+                                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                </div>
+                
+                                <div class="comment-area">
+                
+                                    <textarea class="form-control" placeholder="what is your view?" rows="4"></textarea>
+                
+                                </div>
+                
+                                <div class="comment-btns mt-2">
+                
+                                    <div class="row">
+                
+                                        <div class="col-6">
+                
+                                            <div class="pull-left">
+                
+                                                <button class="btn btn-success btn-sm">Cancel</button>
+                
+                                            </div>
+                
+                                        </div>
+                
+                                        <div class="col-6">
+                
+                                            <div class="pull-right">
+                
+                                                <button class="btn btn-success send btn-sm">Send <i
+                                                        class="fa fa-long-arrow-right ml-1"></i></button>
+                
+                                            </div>
+                
+                                        </div>
+                
+                                    </div>
+                
+                                </div>
+                
+                
+                            </div>
+                
+                        </div>
+                
+                
                     </div>
-                    
-                </ul>
-                <div class="form-outline">
-                  <textarea class="form-control" id="textAreaExample" rows="4"></textarea>
-                  <label class="form-label" for="textAreaExample">What is your view?</label>
+                
                 </div>
-                <div class="d-flex justify-content-between mt-3">
-                  <button type="button" class="btn btn-success">Danger</button>
-                  <button type="button" class="btn btn-danger">
-                    Send <i class="fas fa-long-arrow-alt-right ms-1"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
             </div>
         </div>
     </div>
