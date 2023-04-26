@@ -21,9 +21,10 @@ from appProduct.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name=""),
+    path('', index, name="indexPage"),
     path('about/', aboutPage, name="aboutPage"),
     path('contact/', contactPage, name="contactPage"),
     path('products/', productsPage, name="productsPage"),
-    path('detail/', detailPage, name="detailPage"),
+    path('detail/<slug>/', detailPage, name="detailPage"),
+    path('detail/<slug>/<color>/', detailPage, name="detailPage2"),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

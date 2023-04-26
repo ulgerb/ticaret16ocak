@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-lg-5 mt-5">
                 <div class="card mb-3">
-                    <img class="card-img img-fluid" src="{% static 'img/product_single_10.jpg' %}" alt="Card image cap" id="product-detail">
+                    <img class="card-img img-fluid" src="{{ image_product.first.image.url }}" alt="Card image cap" id="product-detail">
                 </div>
                 <div class="row">
                     <!--Start Controls-->
@@ -30,27 +30,21 @@
                             <!--First slide-->
                             <div class="carousel-item active">
                                 <div class="row">
+                                    
+                                    {% for i in image_product %}
                                     <div class="col-4">
                                         <a href="#">
-                                            <img class="card-img img-fluid" src="{% static 'img/product_single_01.jpg' %}" alt="Product Image 1">
+                                            <img class="card-img img-fluid" src="{{ i.image.url }}" alt="Product Image 1">
                                         </a>
                                     </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid" src="{% static 'img/product_single_02.jpg' %}" alt="Product Image 2">
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#">
-                                            <img class="card-img img-fluid" src="{% static 'img/product_single_03.jpg' %}" alt="Product Image 3">
-                                        </a>
-                                    </div>
+                                    {% endfor %}
+                                        
+                                    
                                 </div>
                             </div>
                             <!--/.First slide-->
 
-                            <!--Second slide-->
-                            <div class="carousel-item">
+                            <!-- <div class="carousel-item">
                                 <div class="row">
                                     <div class="col-4">
                                         <a href="#">
@@ -69,9 +63,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--/.Second slide-->
 
-                            <!--Third slide-->
                             <div class="carousel-item">
                                 <div class="row">
                                     <div class="col-4">
@@ -90,8 +82,7 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
-                            <!--/.Third slide-->
+                            </div> -->
                         </div>
                         <!--End Slides-->
                     </div>
@@ -110,48 +101,51 @@
             <div class="col-lg-7 mt-5">
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="h2">Active Wear</h1>
-                        <p class="h3 py-2">$25.00</p>
+                        <h1 class="h2">{{ product.title }}</h1>
+                        <p class="h3 py-2">${{ product.price }}</p>
                         <p class="py-2">
                             <i class="fa fa-star text-warning"></i>
                             <i class="fa fa-star text-warning"></i>
                             <i class="fa fa-star text-warning"></i>
                             <i class="fa fa-star text-warning"></i>
                             <i class="fa fa-star text-secondary"></i>
-                            <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
+                            <span class="list-inline-item text-dark">Puan {{ product.total_rating }} | 36 Comments</span>
                         </p>
                         <ul class="list-inline">
                             <li class="list-inline-item">
-                                <h6>Brand:</h6>
+                                <h6>Marka:</h6>
                             </li>
                             <li class="list-inline-item">
-                                <p class="text-muted"><strong>Easy Wear</strong></p>
+                                <p class="text-muted"><strong>{{ product.brand.title }}</strong></p>
                             </li>
                         </ul>
 
-                        <h6>Description:</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse. Donec condimentum elementum convallis. Nunc sed orci a diam ultrices aliquet interdum quis nulla.</p>
-                        <ul class="list-inline">
+                        <h6>Açıklama:</h6>
+                        <p>{{ product.text }}</p>
+                        <ul class="list-inline d-flex align-items-center">
                             <li class="list-inline-item">
-                                <h6>Avaliable Color :</h6>
+                                <h6>Renk :</h6>
                             </li>
                             <li class="list-inline-item">
-                                <p class="text-muted"><strong>White / Black</strong></p>
+                                <p class="text-muted">
+                                    
+                                    {% for i in product.colors.all %}
+                                    <a href="{% url 'detailPage2' slug i.title2 %}" style="display: inline-flex; width: 40px; height: 50px; background: {{ i.title2 }}; border-radius: 10px;"></a>
+                                    {% endfor %}
+                                        
+                                </p>
                             </li>
                         </ul>
 
-                        <h6>Specification:</h6>
-                        <ul class="list-unstyled pb-3">
-                            <li>Lorem ipsum dolor sit</li>
-                            <li>Amet, consectetur</li>
-                            <li>Adipiscing elit,set</li>
-                            <li>Duis aute irure</li>
-                            <li>Ut enim ad minim</li>
-                            <li>Dolore magna aliqua</li>
-                            <li>Excepteur sint</li>
+                        <ul class="list-unstyled d-flex pb-3">
+                            
+                            {% if color is not None %}
+                            <h6>Stok: {{ product_stok.first.stok }}</h6>
+                            {% endif %}
+                                
                         </ul>
 
-                        <form action="" method="GET">
+                        <form method="GET">
                             <input type="hidden" name="product-title" value="Activewear">
                             <div class="row">
                                 <div class="col-auto">
@@ -159,10 +153,23 @@
                                         <li class="list-inline-item">Size :
                                             <input type="hidden" name="product-size" id="product-size" value="S">
                                         </li>
-                                        <li class="list-inline-item"><span class="btn btn-success btn-size">S</span></li>
-                                        <li class="list-inline-item"><span class="btn btn-success btn-size">M</span></li>
-                                        <li class="list-inline-item"><span class="btn btn-success btn-size">L</span></li>
-                                        <li class="list-inline-item"><span class="btn btn-success btn-size">XL</span></li>
+                                        
+                                        
+                                        
+                                        {% if color %}
+                                            {% for i in product_stok %}
+                                            <li class="list-inline-item"><span class="btn btn-success btn-size">{{ i.size }}</span></li>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% for i in product.sizes.all %}
+                                            <li class="list-inline-item"><span class="btn btn-success btn-size">{{ i }}</span></li>
+                                            {% endfor %}
+                                        {% endif %}
+                                            
+                                            
+
+                                        
+                                            
                                     </ul>
                                 </div>
                                 <div class="col-auto">
@@ -189,6 +196,51 @@
 
                     </div>
                 </div>
+            </div>
+            <div class="col-12">
+                <section style="background-color: #d94125;">
+  <div class="container my-5 py-5 text-dark">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-6">
+        <div class="card">
+          <div class="card-body p-4">
+            <div class="d-flex flex-start w-100">
+              <img class="rounded-circle shadow-1-strong me-3"
+                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar" width="65"
+                height="65" />
+              <div class="w-100">
+                <h5>YORUM EKLENECEK SONRA SEPETE GEÇ</h5>
+                <ul class="rating mb-3" data-mdb-toggle="rating">
+                    <div class="d-flex align-items-center">
+                        <i class="far fa-star fa-sm text-danger m-2" title="Bad"></i>
+                        <select class="form-select" name="" id="">
+                            <option value="">1</option>
+                            <option value="">2</option>
+                            <option value="">3</option>
+                            <option value="">4</option>
+                            <option value="">5</option>
+                        </select>
+                    </div>
+                    
+                </ul>
+                <div class="form-outline">
+                  <textarea class="form-control" id="textAreaExample" rows="4"></textarea>
+                  <label class="form-label" for="textAreaExample">What is your view?</label>
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                  <button type="button" class="btn btn-success">Danger</button>
+                  <button type="button" class="btn btn-danger">
+                    Send <i class="fas fa-long-arrow-alt-right ms-1"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
             </div>
         </div>
     </div>
