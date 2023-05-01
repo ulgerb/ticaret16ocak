@@ -66,9 +66,9 @@ class ImageProduct(models.Model):
 class Comment(models.Model):
    user = models.ForeignKey(User, verbose_name=("Kulanıcı"), on_delete=models.CASCADE)
    product = models.ForeignKey(Product, verbose_name=("Ürün"), on_delete=models.CASCADE)
-   title = models.CharField(("Başlık"), max_length=50)
    text = models.TextField(("Yorum"))
    rating = models.IntegerField(("Yorum Puanı"), default=5)
+   date_now = models.DateTimeField(("Tarih - Saat"), auto_now_add=True, null=True)
 
    def __str__(self):
       return self.product.title

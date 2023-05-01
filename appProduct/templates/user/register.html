@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block body %}
+<main>
+   <section class="vh-100 gradient-custom">
+      <div class="container py-5 h-100">
+         <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+               <div class="card bg-dark mb-5 text-white" style="border-radius: 1rem;">
+                  <div class="card-body p-5 text-center">
+                     <form method="POST" class="py-3">
+                        {% csrf_token %}
+                        <h2 class="fw-bold mb-5 text-uppercase">Kaydol</h2>
+
+                        <div class="form-outline form-white mb-4">
+                           <input type="text" name="fname" id="typeEmailX" class="form-control form-control-lg" />
+                           <label class="form-label" for="typeEmailX">Ad</label>
+                        </div>
+                        <div class="form-outline form-white mb-4">
+                           <input type="email" name="email" id="typeEmailX" class="form-control form-control-lg" />
+                           <label class="form-label" for="typeEmailX">Email</label>
+                        </div>
+                        <div class="form-outline form-white mb-4">
+                           <input type="text" name="username" id="typeEmailX" class="form-control form-control-lg" />
+                           <label class="form-label" for="typeEmailX">Kullanıcı Adı</label>
+                        </div>
+
+                        <div class="form-outline form-white mb-4">
+                           <input type="password" name="password1" id="typePasswordX"
+                              class="form-control form-control-lg" />
+                           <label class="form-label" for="typePasswordX">Şifre</label>
+                        </div>
+                        <div class="form-outline form-white mb-4">
+                           <input type="password" name="password2" id="typePasswordX"
+                              class="form-control form-control-lg" />
+                           <label class="form-label" for="typePasswordX">Tekrar Şifre</label>
+                        </div>
+
+                        <button class="btn btn-outline-light btn-lg px-5" type="submit">Kaydol</button>
+
+                     </form>
+
+                     <div>
+                        <p class="mb-0">Zaten bir hesabın var mı? <a href="{% url 'loginUser' %}" class="text-white-50 fw-bold">Giriş</a>
+                        </p>
+                     </div>
+
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+</main>
+
+{% endblock body %}

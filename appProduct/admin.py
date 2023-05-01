@@ -36,7 +36,7 @@ class ImageProductAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin): 
 
-   list_display = ('user','product','title','rating', 'id')
+   list_display = ('user','product','rating', 'id')
    
    
    
