@@ -69,6 +69,18 @@
    <!-- Start Slider Script -->
    <script src="{% static 'js/slick.min.js' %}"></script>
    <script>
+
+      $('.btn-size').click(function () {
+            var this_val = $(this).text();
+            console.log(this_val);
+            $("#product-size").val(this_val);
+            $(".btn-size").removeClass('btn-secondary');
+            $(".btn-size").addClass('btn-success');
+            $(this).removeClass('btn-success');
+            $(this).addClass('btn-secondary');
+            return false;
+         });
+      
       $('#carousel-related-product').slick({
          infinite: true,
          arrows: false,

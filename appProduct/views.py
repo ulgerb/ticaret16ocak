@@ -33,19 +33,19 @@ def productsPage(request):
 def detailPage(request, slug, color=None):
    product = get_object_or_404(Product, slug=slug)
    image_product = ImageProduct.objects.filter(product=product)
-   comments = Comment.objects.filter(product=product)
+   comments_product = Comment.objects.filter(product=product)
 
    # SIRALAMA START
    filtertop = request.GET.get("filtertop") 
    if filtertop == "new":
-      comments = comments.order_by("-date_now")
+      comments_product = comments_product.order_by("-date_now")
    elif filtertop == "up":
-      comments = comments.order_by("-rating")
+      comments_product = comments_product.order_by("-rating")
    elif filtertop == "down":
-      comments = comments.order_by("rating")
+      comments_product = comments_product.order_by("rating")
    # SIRALAMA END
    
-   paginator = Paginator(comments, 2)
+   paginator = Paginator(comments_product, 2)
    pag_number = request.GET.get("page")
    comments = paginator.get_page(pag_number)
    
@@ -53,18 +53,34 @@ def detailPage(request, slug, color=None):
        "title": "Ürün Detayı",
        "product": product,
        "comments": comments,
+       "comments_product": comments_product,
        "color": color,
        "slug": slug,
    }
 
    if request.method == "POST":
-      rating = request.POST.get("rating")
-      text = request.POST.get("text")
-      
-      comment = Comment(text=text, product=product, user=request.user)
-      if rating is not None:
-         comment.rating = rating 
-      comment.save()
+      submit = request.POST.get("submit")
+
+      if submit == "formComment":
+         rating = request.POST.get("rating")
+         text = request.POST.get("text")
+         
+         comment = Comment(text=text, product=product, user=request.user)
+         if rating is not None:
+            comment.rating = rating 
+         comment.save()
+
+         total_rating = 0
+         for i in comments_product:
+            total_rating += i.rating
+         
+         total_rating = round(total_rating / len(comments_product), 1)
+         product.total_rating = total_rating
+         product.save()
+      elif submit == "formAddShop":
+         size = request.POST.get("size")
+         quanity = request.POST.get("quanity")
+         print(size)
       
       return redirect("/detail/"+slug+"/")
       
@@ -75,7 +91,6 @@ def detailPage(request, slug, color=None):
       
       context.update({"product_stok": product_stok})
    context.update({"image_product": image_product})
-   print("FOTOĞRAFLAR:  ",image_product)
    return render(request, 'detail.html', context)
 
 

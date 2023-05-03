@@ -1,10 +1,4 @@
-/*
 
-TemplateMo 559 Zay Shop
-
-https://templatemo.com/tm-559-zay-shop
-
-*/
 
 'use strict';
 $(document).ready(function() {
@@ -44,7 +38,8 @@ $(document).ready(function() {
       return false;
     });
     $('.btn-size').click(function(){
-      var this_val = $(this).html();
+      var this_val = $(this).text();
+      console.log(this_val);
       $("#product-size").val(this_val);
       $(".btn-size").removeClass('btn-secondary');
       $(".btn-size").addClass('btn-success');
