@@ -39,4 +39,8 @@ class CommentAdmin(admin.ModelAdmin):
    list_display = ('user','product','rating', 'id')
    
    
+@admin.register(Shoping)
+class ShopingAdmin(admin.ModelAdmin): 
+
+   list_display = ('user','product', 'quanity', 'all_price', 'size', 'color', 'id')
    

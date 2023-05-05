@@ -31,10 +31,12 @@ def productsPage(request):
 
 
 def detailPage(request, slug, color=None):
+   if color is not None:
+      get_object_or_404(Color, title2=color)
    product = get_object_or_404(Product, slug=slug)
    image_product = ImageProduct.objects.filter(product=product)
-   comments_product = Comment.objects.filter(product=product)
-
+   comments_product = Comment.objects.filter(product=product).order_by('-date_now')
+   
    # SIRALAMA START
    filtertop = request.GET.get("filtertop") 
    if filtertop == "new":
@@ -45,7 +47,7 @@ def detailPage(request, slug, color=None):
       comments_product = comments_product.order_by("rating")
    # SIRALAMA END
    
-   paginator = Paginator(comments_product, 2)
+   paginator = Paginator(comments_product, 5)
    pag_number = request.GET.get("page")
    comments = paginator.get_page(pag_number)
    
@@ -78,11 +80,30 @@ def detailPage(request, slug, color=None):
          product.total_rating = total_rating
          product.save()
       elif submit == "formAddShop":
-         size = request.POST.get("size")
-         quanity = request.POST.get("quanity")
-         print(size)
-      
+         product_size = request.POST.get("size").lower()
+         product_size = Size.objects.get(title=product_size)
+         quanity = int(request.POST.get("quanity"))
+         all_price = product.price * quanity
+         colorobj = Color.objects.get(title2=color.lower())
+         
+         
+         shoping = Shoping.objects.filter(user=request.user, product=product, color=colorobj, size=product_size)
+         if shoping.exists():
+            shoping = shoping[0]
+            shoping.quanity += quanity
+            shoping.all_price += all_price
+            shoping.save()
+            
+         elif color is not None:  
+            shoping = Shoping(user=request.user, product=product,
+                              color=colorobj,
+                              size=product_size,
+                              quanity=quanity, all_price=all_price)
+            shoping.save()
+            
+            
       return redirect("/detail/"+slug+"/")
+   print(color)
       
    if color is not None:
       product_stok = Stok.objects.filter(product=product, color__title2=color)
