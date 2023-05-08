@@ -238,7 +238,7 @@
                             </li>
                         </ul>
 
-                        <ul class="list-unstyled d-flex pb-3">
+                        <ul class="list-unstyled d-flex">
                             
                             {% if color is not None %}
                             <h6>Stok: {{ product_stok.first.stok }}</h6>
@@ -249,16 +249,16 @@
                         <form method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="product-title" value="Activewear">
-                            <div class="row">
+                            <div class="">
                                 <div class="col-auto">
                                     <ul class="list-inline pb-3">
                                         <li class="list-inline-item">Size :
-                                            <input type="hidden" name="size" id="product-size">
+                                            <input type="hidden" name="size" id="product-size" value="">
                                         </li>
                                         
                                         {% if color %}
                                             {% for i in product_stok %}
-                                            <li class="list-inline-item"><span class="btn btn-success btn-size">{{ i.size }}</span></li>
+                                            <li class="list-inline-item"><span onclick="hasSize(this)" class="btn btn-success btn-size">{{ i.size }}</span></li>
                                             {% endfor %}
                                         {% else %}
                                             {% for i in product.sizes.all %}
@@ -268,7 +268,7 @@
  
                                     </ul>
                                 </div>
-                                <div class="col-auto">
+                                <div class="col-auto d-flex">
                                     <ul class="list-inline pb-3">
                                         <li class="list-inline-item text-right">
                                             Adet
@@ -278,12 +278,29 @@
                                         <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
                                         <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
                                     </ul>
+                                    
+                                    {% for i in messages %}
+                                        <p class="text-danger ms-3 mt-2" style="font-size: 1rem !important;">{{ i }}</p>
+                                    {% endfor %}
+                                        
                                 </div>
                             </div>
                             <div class="row pb-3">
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="formAddShop">Sepete Ekle</button>
+                                    <button type="submit" id="btnadd" class="btn btn-success btn-lg disabled" name="submit" value="formAddShop">Sepete Ekle</button>
                                 </div>
+                                <script>
+                                    var color = "{{ color|safe }}"
+                                    var productsize = document.getElementById("product-size")
+                                    var sizevar = false;
+                                    var hasSize = (e)=>{
+                                        sizevar = true;
+                                        if(color != "None" && sizevar ){
+                                            console.log("onaylandı");
+                                            document.getElementById("btnadd").classList.remove("disabled")
+                                        }
+                                    }
+                                </script>
                                 <div class="col d-grid">
                                     <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Add</button>
                                 </div>
@@ -296,7 +313,7 @@
 
             <!-- COMMENT -->
             <div class="col-12 mt-5">
-                ÜRÜN PUANI HESAPLA SEARCH ARAMA YAPTIR SEPETE GEÇ
+                SEARCH ARAMA YAPTIR SEPETE GEÇ
 
                 <form method="GET">
                     <select class="form-select d-inline" style="width: 200px;" name="filtertop" id="">

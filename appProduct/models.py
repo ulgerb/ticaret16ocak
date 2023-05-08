@@ -61,7 +61,7 @@ class ImageProduct(models.Model):
    image = models.ImageField(("Ürün Resmi"), upload_to='product', max_length=250)
 
    def __str__(self):
-      return self.product.title
+      return self.product.title + " " + self.color.title1
    
 class Comment(models.Model):
    user = models.ForeignKey(User, verbose_name=("Kulanıcı"), on_delete=models.CASCADE)
@@ -78,6 +78,7 @@ class Comment(models.Model):
 class Shoping(models.Model):
    user = models.ForeignKey(User, verbose_name=("Kullanıcı"), on_delete=models.CASCADE)
    product = models.ForeignKey(Product, verbose_name=("Ürün"), on_delete=models.CASCADE)
+   imageproduct = models.ForeignKey(ImageProduct, verbose_name=("Ürün Fotoğrafı"), on_delete=models.CASCADE, null=True)
    color = models.ForeignKey(Color, verbose_name=("Renk"), on_delete=models.CASCADE)
    size = models.ForeignKey(Size, verbose_name=("Beden"), on_delete=models.CASCADE)
    quanity = models.IntegerField(("Adet"))
