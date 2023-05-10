@@ -39,7 +39,10 @@ class Product(models.Model):
    colors = models.ManyToManyField(Color, verbose_name=("Renkler"))
    sizes = models.ManyToManyField(Size, verbose_name=("Bedenler"))
 
+   
    def save(self, *args, **kwargs):
+      self.price = round(self.price, 2)
+      self.total_rating = round(self.total_rating, 1)
       self.slug = slugify(self.title)
       super(Product, self).save(*args, **kwargs)
       
@@ -84,7 +87,9 @@ class Shoping(models.Model):
    quanity = models.IntegerField(("Adet"))
    all_price =  models.FloatField(("Toplam Ürün Fiyatı"))
 
-   
+   def save(self, *args, **kwargs):
+      self.all_price = round(self.all_price, 2)
+      super(Shoping, self).save(*args, **kwargs)
    
    def __str__(self):
       return self.product.title

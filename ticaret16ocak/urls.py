@@ -29,6 +29,8 @@ urlpatterns = [
     path('detail/<slug>/', detailPage, name="detailPage"),
     path('detail/<slug>/<color>/', detailPage, name="detailPage2"),
     path('shoping/', shopingPage, name="shopingPage"),
+    path('shopingDelete/<id>/', shopingDelete, name="shopingDelete"),
+    path('shopingDelete2/', shopingDelete2, name="shopingDelete2"),
     
     # USER
     path('login/', loginUser, name="loginUser"),

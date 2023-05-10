@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.db.models import Q 
 
 def index(request):
    context = {
@@ -23,6 +24,9 @@ def contactPage(request):
 
 def productsPage(request):
    products = Product.objects.all()
+   query = request.GET.get("q")
+   if query is not None:
+      products = products.filter(Q(title__icontains=query) | Q(brand__title__icontains=query)) # __icontains içerisinde geçip geçmediğini kontrol eder
    
    context = {
       "title":"Ürünler",
@@ -82,12 +86,11 @@ def detailPage(request, slug, color=None):
          product.save()
       elif submit == "formAddShop":
          product_size = request.POST.get("size").lower()
-         product_size = Size.objects.get(title=product_size)
          quanity = int(request.POST.get("quanity"))
          all_price = product.price * quanity
-         colorobj = Color.objects.get(title2=color.lower())
-         print(product_size)
          if product_size != None and color != None:
+            product_size = Size.objects.get(title=product_size)
+            colorobj = Color.objects.get(title2=color.lower())
             shoping = Shoping.objects.filter(user=request.user, product=product, color=colorobj, size=product_size)
             if shoping.exists():
                shoping = shoping[0]
@@ -108,7 +111,6 @@ def detailPage(request, slug, color=None):
             
             
       return redirect("/detail/"+slug+"/")
-   print(color)
       
    if color is not None:
       product_stok = Stok.objects.filter(product=product, color__title2=color)
@@ -122,7 +124,11 @@ def detailPage(request, slug, color=None):
 
 def shopingPage(request):
    shoping = Shoping.objects.filter(user=request.user)
+   total_price = 0
 
+   for i in shoping:
+      total_price += i.all_price
+   
    if request.method == "POST":
       for i,v in request.POST.items():
          if i != "csrfmiddlewaretoken":
@@ -137,7 +143,21 @@ def shopingPage(request):
             
    context={
        "shoping": shoping,
+       "total_price": total_price,
    }
-
-   
    return render(request, 'shoping.html', context)
+
+def shopingDelete(request, id):
+   shoping = Shoping.objects.get(id=id)
+   shoping.delete()
+   return redirect("shopingPage")
+
+def shopingDelete2(request):
+   
+   for i,v in request.GET.items():
+      print(i,v)
+   # shopid = request.GET.get("shopid")
+   # shoping = Shoping.objects.get(id=shopid)
+   # shoping.delete()
+   return redirect("shopingPage")
+   
